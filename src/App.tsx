@@ -164,6 +164,7 @@ function CreateTripPage({handleCreate}: {handleCreate: any}) {
       arriving_airport: destinationAirport,
       flight_number: flightNumber,
       trip_length: parseInt(tripLength),
+      checked: [],
       items: [
         {
           ai: true,
@@ -295,29 +296,48 @@ function CreateTripPage({handleCreate}: {handleCreate: any}) {
   )
 }
 
-function PackPage({weight, trips, selectedTrip, onDeleteItem, setTrips} : {weight: number, trips: any, selectedTrip: any, onDeleteItem: any, setTrips: any}) {
-  const [checked, setChecked] = React.useState<number[]>([]);
+function PackPage({weight, trips, selectedTrip, setTrips} : {weight: number, trips: any, selectedTrip: any, setTrips: any}) {
   const [newItem, setNewItem] = useState('');
 
   const handleToggle = (index: number) => () => {
-    const currentIndex = checked.indexOf(index);
-    const newChecked = [...checked];
-
+    const newChecked = [...trips[selectedTrip].checked];
+  
+    const currentIndex = newChecked.indexOf(index);
     if (currentIndex === -1) {
       newChecked.push(index);
     } else {
       newChecked.splice(currentIndex, 1);
     }
-
-    setChecked(newChecked);
+  
+    setTrips((prevTrips: any) => {
+      const updatedTrips = [...prevTrips];
+      updatedTrips[selectedTrip] = {
+        ...updatedTrips[selectedTrip],
+        checked: newChecked
+      };
+      return updatedTrips;
+    });
   };
 
   const handleDelete = (index: number) => {
-    const newChecked = checked.filter((idx) => idx !== index).map((idx) => idx > index ? idx - 1 : idx);
-    setChecked(newChecked);
-
-    onDeleteItem(index)
-  }
+    setTrips((prevTrips: any) => {
+      const updatedTrips = [...prevTrips];
+      const updatedTrip = {...updatedTrips[selectedTrip]};
+      updatedTrip.items.splice(index, 1);
+      const newChecked = updatedTrip.checked.reduce((acc: number[], curr: number) => {
+        if (curr < index) {
+          acc.push(curr);
+        } else if (curr > index) {
+          acc.push(curr - 1);
+        }
+        return acc;
+      }, []);
+      updatedTrip.checked = newChecked;
+      updatedTrips[selectedTrip] = updatedTrip;
+  
+      return updatedTrips;
+    });  
+  };
 
   const handleAdd = () => {
     if (newItem.trim() !== '') {
@@ -361,7 +381,7 @@ function PackPage({weight, trips, selectedTrip, onDeleteItem, setTrips} : {weigh
                 <ListItemIcon>
                   <Checkbox
                     edge="start"
-                    checked={checked.indexOf(index) !== -1}
+                    checked={trips[selectedTrip].checked && trips[selectedTrip].checked.indexOf(index) !== -1}
                     tabIndex={-1}
                     disableRipple
                     style={{color: item.ai ? '#9d4edd' : 'black'}}
@@ -384,7 +404,6 @@ function PackPage({weight, trips, selectedTrip, onDeleteItem, setTrips} : {weigh
         />
         <Button variant="contained" onClick={handleAdd} disabled={newItem === ''}>Add</Button>
       </Stack>
-      <p>* Note that this prototype does not persist checked states, if you leave this page all items will be unchecked. However, the actual design expects to keep the items you have checked off.</p>
     </>
   )
 }
@@ -406,6 +425,7 @@ function App() {
     arriving_airport: "JFK",
     flight_number: "AC666",
     trip_length: 4,
+    checked: [],
     items: [
       {
         ai: true,
@@ -453,14 +473,6 @@ function App() {
     }
 
     setChecked(newChecked);
-  };
-
-  const handleDeleteItem = (itemIndex: any) => {
-    setTrips(prevTrips => {
-      const updatedTrips = [...prevTrips];
-      updatedTrips[selectedTrip].items.splice(itemIndex, 1);
-      return updatedTrips;
-    });
   };
 
   const calculateWeight = () => {
@@ -539,7 +551,7 @@ function App() {
                   page === 1 ? <HomePage handlePlan={handlePlan} handleExisting={handleExisting} /> :
                   page === 2 ? <AccountPage /> :
                   page === 3 ? <CreateTripPage handleCreate={handleCreate} /> :
-                  page === 4 ? <PackPage setTrips={setTrips} weight={calculateWeight()} trips={trips} selectedTrip={selectedTrip} onDeleteItem={handleDeleteItem} /> :
+                  page === 4 ? <PackPage setTrips={setTrips} weight={calculateWeight()} trips={trips} selectedTrip={selectedTrip} /> :
                   null
                 }
               </div>
