@@ -544,7 +544,7 @@ function App() {
         <PanelResizeHandle/>
         <Panel minSize={40}>
           <div className="panel">
-            <div className="phone">
+            <div className="phone" style={{margin:20}}>
               <div className="phone-content no-bar">
                 {
                   page === 0 ? <TripsPage trips={trips} handleSelectTrip={handleSelectTrip} /> :
