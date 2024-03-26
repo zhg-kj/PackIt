@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-import { Alert, AlertTitle, Button, Checkbox, Collapse, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, TextField } from '@mui/material';
+import { Alert, AlertTitle, Button, Card, CardActions, CardContent, CardMedia, Checkbox, Collapse, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, TextField, Typography } from '@mui/material';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
@@ -99,34 +99,89 @@ function HomePage({handlePlan, handleExisting} : {handlePlan: any, handleExistin
   )
 }
 
-function TripsPage() {
+function TripsPage({trips, handleSelectTrip} : {trips: any, handleSelectTrip: any}) {
   return (
     <>
-      
+      <h2>All Your Trips</h2>
+      {trips.map((trip: any, index: any) => {
+        return (
+          <Card style={{marginBottom: 20}}>
+            <CardMedia
+              sx={{ height: 140 }}
+              image="/images/jfk.jpg"
+              title="green iguana"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {trip.departing_airport + " to " + trip.arriving_airport}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Flight {trip.flight_number}. Gone for {trip.trip_length} days.
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                * Edit trip details is unimplemented for this prototype.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button variant="contained" size="small" onClick={() => {handleSelectTrip(index)}}>Pack</Button>
+              <Button size="small">Edit Trip Details</Button>
+            </CardActions>
+          </Card>
+        )
+      })}
     </>
   )
 }
 
-function CreateTripPage({ handleCreate }: { handleCreate: any }) {
+function CreateTripPage({handleCreate}: {handleCreate: any}) {
   const [departingAirport, setDepartingAirport] = useState('');
   const [destinationAirport, setDestinationAirport] = useState('');
   const [flightNumber, setFlightNumber] = useState('');
   const [tripLength, setTripLength] = useState('');
   const [numPeople, setNumPeople] = useState('');
-  const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+  const [open3, setOpen3] = React.useState(false);
 
   const handleSubmit = () => {
+    if (departingAirport !== 'YYZ') {
+      setOpen3(true);
+      return;
+    }
+
+    if (destinationAirport !== 'CUN') {
+      setOpen2(true);
+      return;
+    }
+
     if (flightNumber !== 'AC888') {
-      setOpen(true);
+      setOpen1(true);
       return;
     }
 
     handleCreate({
-      departingAirport,
-      destinationAirport,
-      flightNumber,
-      tripLength,
-      numPeople
+      departing_airport: departingAirport, 
+      arriving_airport: destinationAirport,
+      flight_number: flightNumber,
+      trip_length: parseInt(tripLength),
+      items: [
+        {
+          ai: true,
+          item: "Sunscreen"
+        },
+        {
+          ai: true,
+          item: "Sunglasses"
+        },
+        {
+          ai: true,
+          item: "Hat"
+        },
+        {
+          ai: true,
+          item: "Swimming Suit"
+        },
+      ]
     });
   }
 
@@ -175,7 +230,7 @@ function CreateTripPage({ handleCreate }: { handleCreate: any }) {
         onChange={(e) => setNumPeople(e.target.value)}
         style={{ marginBottom: 10, width: "100%" }}
       />
-      <Collapse in={open}>
+      <Collapse in={open1}>
         <Alert
           severity="error"
           action={
@@ -184,7 +239,7 @@ function CreateTripPage({ handleCreate }: { handleCreate: any }) {
               color="inherit"
               size="small"
               onClick={() => {
-                setOpen(false);
+                setOpen1(false);
               }}
             >
               <CloseIcon fontSize="inherit" />
@@ -195,13 +250,54 @@ function CreateTripPage({ handleCreate }: { handleCreate: any }) {
           Invalid Flight Number Entered.
         </Alert>
       </Collapse>
+      <Collapse in={open2}>
+        <Alert
+          severity="error"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpen2(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Invalid Destination Airport Entered.
+        </Alert>
+      </Collapse>
+      <Collapse in={open3}>
+        <Alert
+          severity="error"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpen3(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Invalid Departing Airport Entered.
+        </Alert>
+      </Collapse>
       <Button variant="contained" onClick={handleSubmit} disabled={!allFieldsFilled}>Submit</Button>
     </>
   )
 }
 
-function PackPage({weight} : {weight: number}) {
+function PackPage({weight, trips, selectedTrip, onDeleteItem, setTrips} : {weight: number, trips: any, selectedTrip: any, onDeleteItem: any, setTrips: any}) {
   const [checked, setChecked] = React.useState<number[]>([]);
+  const [newItem, setNewItem] = useState('');
 
   const handleToggle = (index: number) => () => {
     const currentIndex = checked.indexOf(index);
@@ -216,29 +312,47 @@ function PackPage({weight} : {weight: number}) {
     setChecked(newChecked);
   };
 
+  const handleDelete = (index: number) => {
+    const newChecked = checked.filter((idx) => idx !== index).map((idx) => idx > index ? idx - 1 : idx);
+    setChecked(newChecked);
+
+    onDeleteItem(index)
+  }
+
+  const handleAdd = () => {
+    if (newItem.trim() !== '') {
+      setTrips((prevTrips: any) => {
+        const updatedTrips = [...prevTrips];
+        updatedTrips[selectedTrip].items.push({ ai: false, item: newItem.trim() });
+        return updatedTrips;
+      });
+      setNewItem('');
+    }
+  }
+
   return (
     <>
-      <h2 style={{ marginBottom: 2 }}>Your Trip to Cancun</h2>
+      <h2 style={{ marginBottom: 2 }}>Your Trip to {trips[selectedTrip].arriving_airport}</h2>
       <h3>Luggage Details</h3>
       <div> 
         <div className="image-container">
           <img src="/images/suitcase.png" alt="Suitcase" className="rounded-image"/>
         </div>
       </div>
-      {weight <= 23 ? <Alert severity="success" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight} KG</AlertTitle>You are currently within the weight limit of 23 KG by {23 - weight} KG.</Alert> : <Alert severity="error" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight} KG</AlertTitle>You are currently over the weight limit of 23 KG by {weight - 23} KG.</Alert>}
+      {weight <= 23 ? <Alert severity="success" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight} KG</AlertTitle>You are currently within the weight limit of 5 KG by {5 - weight} KG.</Alert> : <Alert severity="error" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight} KG</AlertTitle>You are currently over the weight limit of 5 KG by {weight - 5} KG.</Alert>}
       <Alert style={{ marginBottom: 20 }} severity="warning">Note that liquids over 100 mL are not permitted on this flight.</Alert>
       <h3 style={{marginBottom: 2}}>Packing Cheklist</h3>
       <p style={{marginTop: 0}}>Check this list off as you pack! AI suggested items are highlighted in purple.</p>
       <List>
-        {items.map((item, index) => {
+        {trips[selectedTrip].items.map((item: any, index: any) => {
           const labelId = `checkbox-list-label-${index}`;
 
           return (
             <ListItem 
               key={item.item} 
-              style={{padding: 0}}
+              style={{padding: 0, color: item.ai ? '#9d4edd' : 'black'}}
               secondaryAction={
-                <IconButton edge="end" aria-label="delete" onClick={() => {}}>
+                <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(index)}>
                   <DeleteIcon />
                 </IconButton>
               }
@@ -250,6 +364,7 @@ function PackPage({weight} : {weight: number}) {
                     checked={checked.indexOf(index) !== -1}
                     tabIndex={-1}
                     disableRipple
+                    style={{color: item.ai ? '#9d4edd' : 'black'}}
                     inputProps={{ 'aria-labelledby': labelId }}
                   />
                 </ListItemIcon>
@@ -259,6 +374,17 @@ function PackPage({weight} : {weight: number}) {
           )
         })}
       </List>
+      <Stack spacing={2} direction="row">
+        <TextField
+          fullWidth
+          required
+          label="Add Item"
+          value={newItem}
+          onChange={(e) => setNewItem(e.target.value)}
+        />
+        <Button variant="contained" onClick={handleAdd} disabled={newItem === ''}>Add</Button>
+      </Stack>
+      <p>* Note that this prototype does not persist checked states, if you leave this page all items will be unchecked. However, the actual design expects to keep the items you have checked off.</p>
     </>
   )
 }
@@ -272,9 +398,26 @@ function AccountPage() {
 }
 
 function App() {
-  const [checked, setChecked] = React.useState<number[]>([]);
-  const [navbar, setNavbar] = React.useState(1);
-  const [page, setPage] = React.useState(1);
+  const [checked, setChecked] = useState<number[]>([]);
+  const [navbar, setNavbar] = useState(1);
+  const [page, setPage] = useState(1);
+  const [trips, setTrips] = useState<any[]>([{
+    departing_airport: "YYZ", 
+    arriving_airport: "JFK",
+    flight_number: "AC666",
+    trip_length: 4,
+    items: [
+      {
+        ai: true,
+        item: "Winter Jacket"
+      },
+      {
+        ai: false,
+        item: "T-Shirt"
+      }
+    ]
+  }])
+  const [selectedTrip, setSelectedTrip] = useState(0);
 
   const handlePlan = () => {
     setNavbar(0);
@@ -286,8 +429,16 @@ function App() {
     setPage(0);
   }
 
-  const handleCreate = () => {
+  const handleCreate = (trip: any) => {
+    setTrips(prevTrips => [trip, ...prevTrips])
     setNavbar(0);
+    setSelectedTrip(0);
+    setPage(4);
+  }
+
+  const handleSelectTrip = (index: any) => {
+    setNavbar(0);
+    setSelectedTrip(index);
     setPage(4);
   }
 
@@ -302,6 +453,14 @@ function App() {
     }
 
     setChecked(newChecked);
+  };
+
+  const handleDeleteItem = (itemIndex: any) => {
+    setTrips(prevTrips => {
+      const updatedTrips = [...prevTrips];
+      updatedTrips[selectedTrip].items.splice(itemIndex, 1);
+      return updatedTrips;
+    });
   };
 
   const calculateWeight = () => {
@@ -321,8 +480,26 @@ function App() {
       <PanelGroup direction="horizontal" style={{gap: 2.5}}>
         <Panel minSize={20}>
           <div className="panel">
+            <div className="no-bar" style={{background: "white", overflow: "auto", color: "black", width: "100%", height: "100%"}}>
+              <h1 style={{margin: 20}}>Tasks</h1>
+              <h3 style={{margin: 20, marginBottom: 2}}>Task 1: Pack a Trip to Cancun</h3>
+              <p style={{margin: 20, marginTop: 0}}>Your first task is to pack a trip to Cancun. You are leaving from Toronto YYZ and arriving in Cancun CUN. You will be gone for 4 days and will be on flight AC888. Use the app and suitcase to help you pack for your trip.</p>
+              <h3 style={{margin: 20, marginBottom: 2}}>Task 2: Luggage Restrictions</h3>
+              <p style={{margin: 20, marginTop: 0}}>In this task you are given a packed suitcase. You need to use the app to identify and remove any items that are restricted from your luggage. You should replace items that can be replaced accordingly.</p>
+              <p style={{margin: 20, marginTop: 0, marginBottom: 0}}>Click the button below to initialize the simulator for this task. Note that is will overwrite any inputs you have entered so far.</p>
+              <Button variant="contained" style={{margin: 20}}>Initialize Task 2</Button>
+              <h3 style={{margin: 20}}>Task 3: Overweight</h3>
+              <p style={{margin: 20, marginTop: 0}}>In this task you are given a packed suitcase that exceeds the weight limit. Use the app and suitcase to remove/replace items so you satisfy the weight limit and have all the items you need for your trip.</p>
+              <p style={{margin: 20, marginTop: 0, marginBottom: 0}}>Click the button below to initialize the simulator for this task. Note that is will overwrite any inputs you have entered so far.</p>
+              <Button variant="contained" style={{margin: 20}}>Initialize Task 3</Button>
+            </div>
+          </div>
+        </Panel>
+        <PanelResizeHandle/>
+        <Panel minSize={20}>
+          <div className="panel">
             <div className="no-bar" style={{background: "white", overflow: "auto", color: "black", width: "100%"}}>
-              <h1>Your Items</h1>
+              <h1 style={{margin: 20}}>Your Items</h1>
               <p style={{margin: 20, textAlign: "left"}}>This is a part of the suitcase simulation. It is meant to represent the physical items you would add to the suitcase. Checking one off represents adding the item to the suitcase. Unchecking an item represents removing it from the suitcase. Note that this intentionally does not alter the checklist of the paired app, but, it will affect the measured weight of the suitcase in the app.</p>
               <List style={{margin: 20}}>
                 {items.map((item, index) => {
@@ -353,22 +530,16 @@ function App() {
           </div>
         </Panel>
         <PanelResizeHandle/>
-        <Panel minSize={30}>
-          <div className="panel">
-            
-          </div>
-        </Panel>
-        <PanelResizeHandle/>
-        <Panel minSize={30}>
+        <Panel minSize={40}>
           <div className="panel">
             <div className="phone">
               <div className="phone-content no-bar">
                 {
-                  page === 0 ? <TripsPage /> :
+                  page === 0 ? <TripsPage trips={trips} handleSelectTrip={handleSelectTrip} /> :
                   page === 1 ? <HomePage handlePlan={handlePlan} handleExisting={handleExisting} /> :
                   page === 2 ? <AccountPage /> :
                   page === 3 ? <CreateTripPage handleCreate={handleCreate} /> :
-                  page === 4 ? <PackPage weight={calculateWeight()} /> :
+                  page === 4 ? <PackPage setTrips={setTrips} weight={calculateWeight()} trips={trips} selectedTrip={selectedTrip} onDeleteItem={handleDeleteItem} /> :
                   null
                 }
               </div>
