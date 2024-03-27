@@ -13,70 +13,347 @@ import NotificationAddIcon from '@mui/icons-material/NotificationAdd';
 
 const items = [
   {
-    item: "Red T-Shirt",
-    weight: 0.3
+      "item": "Thick Green Jacket",
+      "weight": 4.5,
+      "ai": false
   },
   {
-    item: "Black T-Shirt",
-    weight: 0.3
+      "item": "Navy Hat",
+      "weight": 0.3,
+      "ai": false
   },
   {
-    item: "Grey T-Shirt",
-    weight: 0.3
+      "item": "Lighter Fluid (100 ml)",
+      "weight": 1,
+      "ai": false
   },
   {
-    item: "Black Underwear",
-    weight: 0.1
+      "item": "Thin Black Hoodie",
+      "weight": 1,
+      "ai": false
   },
   {
-    item: "Blue Underwear",
-    weight: 0.1
+      "item": "Red Sandals",
+      "weight": 0.4,
+      "ai": false
   },
   {
-    item: "Sunscreen",
-    weight: 0.2
+      "item": "Camera",
+      "weight": 1,
+      "ai": false
   },
   {
-    item: "Toothbrush",
-    weight: 0.1
+      "item": "Hair Spray (100 ml)",
+      "weight": 0.5,
+      "ai": false
   },
   {
-    item: "Toothpaste 150mL",
-    weight: 0.1
+      "item": "Red Underwear",
+      "weight": 0.1,
+      "ai": false
   },
   {
-    item: "Toothpaste 100mL",
-    weight: 0.1
+      "item": "Swiss Army Knife Keychain",
+      "weight": 0.1,
+      "ai": false
   },
   {
-    item: "Winter Jacket",
-    weight: 2
+      "item": "Thick Black Jacket",
+      "weight": 4.5,
+      "ai": false
   },
   {
-    item: "Thin Hoodie",
-    weight: 1
+      "item": "Green Shorts",
+      "weight": 0.5,
+      "ai": false
   },
   {
-    item: "Thick Hoodie",
-    weight: 2
+      "item": "Toothpaste 100 ml",
+      "weight": 0.1,
+      "ai": false
   },
   {
-    item: "Grey Socks",
-    weight: 0.3
+      "item": "Mouth Wash 250 ml",
+      "weight": 0.3,
+      "ai": false
   },
   {
-    item: "Black Socks",
-    weight: 0.3
+      "item": "Thin Grey Hoodie",
+      "weight": 1,
+      "ai": false
   },
   {
-    item: "Cigarettes",
-    weight: 0.1
+      "item": "Hair Gel",
+      "weight": 0.1,
+      "ai": false
   },
   {
-    item: "Butcher Knife",
-    weight: 0.6
+      "item": "Black Shorts",
+      "weight": 0.5,
+      "ai": false
   },
-]
+  {
+      "item": "Navy Shorts",
+      "weight": 0.5,
+      "ai": false
+  },
+  {
+      "item": "Zippo Lighter",
+      "weight": 0.3,
+      "ai": false
+  },
+  {
+      "item": "Medium Jacket",
+      "weight": 3.5,
+      "ai": false
+  },
+  {
+      "item": "Mouth Wash 100 ml",
+      "weight": 0.1,
+      "ai": false
+  },
+  {
+      "item": "Thick Red Hoodie",
+      "weight": 2,
+      "ai": false
+  },
+  {
+      "item": "Beige Dress pants",
+      "weight": 1.5,
+      "ai": false
+  },
+  {
+      "item": "Hammer",
+      "weight": 2,
+      "ai": false
+  },
+  {
+      "item": "USB C Charger",
+      "weight": 0.1,
+      "ai": false
+  },
+  {
+      "item": "Blue Sandals",
+      "weight": 0.4,
+      "ai": false
+  },
+  {
+      "item": "Cigarettes",
+      "weight": 0.1,
+      "ai": false
+  },
+  {
+      "item": "Black Sweater",
+      "weight": 1,
+      "ai": false
+  },
+  {
+      "item": "Green Sweater",
+      "weight": 1,
+      "ai": false
+  },
+  {
+      "item": "Black Shirt",
+      "weight": 0.3,
+      "ai": false
+  },
+  {
+      "item": "Lightning Cable",
+      "weight": 0.1,
+      "ai": false
+  },
+  {
+      "item": "Grey Cotton Shirt",
+      "weight": 0.3,
+      "ai": false
+  },
+  {
+      "item": "Black Sneakers",
+      "weight": 0.7,
+      "ai": false
+  },
+  {
+      "item": "Power Bank",
+      "weight": 0.5,
+      "ai": false
+  },
+  {
+      "item": "Cologne (200 ml)",
+      "weight": 1,
+      "ai": false
+  },
+  {
+      "item": "Cologne (50 ml)",
+      "weight": 0.5,
+      "ai": false
+  },
+  {
+      "item": "Black Sweatpants",
+      "weight": 1,
+      "ai": false
+  },
+  {
+      "item": "Yellow Raincoat",
+      "weight": 0.7,
+      "ai": false
+  },
+  {
+      "item": "Toothpaste 150 ml",
+      "weight": 0.1,
+      "ai": false
+  },
+  {
+      "item": "Grey Dress pants",
+      "weight": 1.5,
+      "ai": false
+  },
+  {
+      "item": "Dental Floss",
+      "weight": 0.1,
+      "ai": false
+  },
+  {
+      "item": "Purple Underwear",
+      "weight": 0.1,
+      "ai": false
+  },
+  {
+      "item": "Black Underwear",
+      "weight": 0.1,
+      "ai": false
+  },
+  {
+      "item": "Black Scarf",
+      "weight": 0.2,
+      "ai": false
+  },
+  {
+      "item": "Golf Club",
+      "weight": 2,
+      "ai": false
+  },
+  {
+      "item": "Grey Sweatpants",
+      "weight": 1,
+      "ai": false
+  },
+  {
+      "item": "White Linen Shirt",
+      "weight": 0.3,
+      "ai": false
+  },
+  {
+      "item": "Camera Batteries",
+      "weight": 0.5,
+      "ai": false
+  },
+  {
+      "item": "Thick Navy Hoodie",
+      "weight": 2,
+      "ai": false
+  },
+  {
+      "item": "Straw Hat",
+      "weight": 0.3,
+      "ai": false
+  },
+  {
+      "item": "Blue Underwear",
+      "weight": 0.1,
+      "ai": false
+  },
+  {
+      "item": "Thin Jacket",
+      "weight": 2.5,
+      "ai": false
+  },
+  {
+      "item": "Classic Blue Jeans",
+      "weight": 1,
+      "ai": false
+  },
+  {
+      "item": "Brown Waterproof Boots",
+      "weight": 1.2,
+      "ai": false
+  },
+  {
+      "item": "Pink Underwear",
+      "weight": 0.1,
+      "ai": false
+  },
+  {
+      "item": "Black Sunglasses",
+      "weight": 0.1,
+      "ai": false
+  },
+  {
+      "item": "Lightweight Waterproof Jacket",
+      "weight": 0.5,
+      "ai": false
+  },
+  {
+      "item": "Red Shirt",
+      "weight": 0.3,
+      "ai": false
+  },
+  {
+      "item": "Thick Black Hoodie",
+      "weight": 2,
+      "ai": false
+  },
+  {
+      "item": "All Purpose Waterproof Sneakers",
+      "weight": 1.5,
+      "ai": false
+  },
+  {
+      "item": "Hair Spray (150 ml)",
+      "weight": 0.5,
+      "ai": false
+  },
+  {
+      "item": "Oral Hygiene Travel Kit",
+      "weight": 0.3,
+      "ai": false
+  },
+  {
+      "item": "White Sneakers",
+      "weight": 0.7,
+      "ai": false
+  },
+  {
+      "item": "Dark Wash Jeans",
+      "weight": 1,
+      "ai": false
+  },
+  {
+      "item": "USB C to Lightning Adaptor",
+      "weight": 0.2,
+      "ai": false
+  },
+  {
+      "item": "Black Raincoat",
+      "weight": 0.7,
+      "ai": false
+  },
+  {
+      "item": "Blue Shirt",
+      "weight": 0.3,
+      "ai": false
+  },
+  {
+      "item": "Butcher Knife",
+      "weight": 0.6,
+      "ai": false
+  },
+  {
+      "item": "Toothbrush",
+      "weight": 0.1,
+      "ai": false
+  },
+  {item: "Sunscreen (100mL)", weight: 0.3, ai: false},
+];
 
 function HomePage({handlePlan, handleExisting, trip, handleSelectTrip} : {handlePlan: any, handleExisting: any, trip: any, handleSelectTrip: any}) {
   return (
@@ -213,22 +490,9 @@ function CreateTripPage({handleCreate}: {handleCreate: any}) {
       checked: [],
       image: "/images/cun.jpg",
       items: [
-        {
-          ai: true,
-          item: "Sunscreen"
-        },
-        {
-          ai: true,
-          item: "Sunglasses"
-        },
-        {
-          ai: true,
-          item: "Hat"
-        },
-        {
-          ai: true,
-          item: "Swimming Suit"
-        },
+        {item: "Sunscreen (100mL)", weight: 0.3, ai: true},
+        {item: "Straw Hat", weight: 0.3, ai: true},
+        {item: "Camera", weight: 1, ai: true},
       ]
     });
   }
@@ -406,7 +670,7 @@ function PackPage({weight, trips, selectedTrip, setTrips} : {weight: number, tri
           <img src="/images/suitcase.jpg" alt="Suitcase" className="rounded-image"/>
         </div>
       </div>
-      {weight <= 5 ? <Alert severity="success" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight.toFixed(1)} KG</AlertTitle>You are currently within the weight limit of 5 KG by {(5 - parseFloat(weight.toFixed(1))).toFixed(1)} KG.</Alert> : <Alert severity="error" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight.toFixed(1)} KG</AlertTitle>You are currently over the weight limit of 5 KG by {(parseFloat(weight.toFixed(1)) - 5).toFixed(1)} KG. *Example of AI generated suggestion* Based on your packed items you can remove one of your sweaters to meet the weight limit.</Alert>}
+      {weight <= 20 ? <Alert severity="success" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight.toFixed(1)} KG</AlertTitle>You are currently within the weight limit of 20 KG by {(20 - parseFloat(weight.toFixed(1))).toFixed(1)} KG.</Alert> : <Alert severity="error" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight.toFixed(1)} KG</AlertTitle>You are currently over the weight limit of 20 KG by {(parseFloat(weight.toFixed(1)) - 20).toFixed(1)} KG. *Example of AI generated suggestion* Based on your packed items you can remove one of your sweaters to meet the weight limit.</Alert>}
       <Alert style={{ marginBottom: 20 }} severity="warning">Note that liquids over 100 mL are not permitted on this flight.</Alert>
       <h3 style={{marginBottom: 2}}>Packing Cheklist</h3>
       <p style={{marginTop: 0}}>Check this list off as you pack! AI suggested items are highlighted in purple.</p>
@@ -472,37 +736,40 @@ function App() {
     arriving_airport: "JFK",
     flight_number: "AC666",
     trip_length: 4,
-    checked: [0, 1, 2, 3, 4, 5, 6],
+    checked: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
     image: '/images/jfk.jpg',
     items: [
-      {
-        ai: true,
-        item: "Winter Jacket"
-      },
-      {
-        ai: false,
-        item: "Red T-Shirt"
-      },
-      {
-        ai: false,
-        item: "Grey T-Shirt"
-      },
-      {
-        ai: false,
-        item: "Butcher Knife"
-      },
-      {
-        ai: false,
-        item: "Toothpaste 150mL"
-      },
-      {
-        ai: false,
-        item: "Thin Hoodie"
-      },
-      {
-        ai: false,
-        item: "Cigarretes"
-      },
+      { item: "Blue Underwear", weight: 0.1, ai: false },
+      { item: "Black Underwear", weight: 0.1, ai: false },
+      { item: "Red Underwear", weight: 0.1, ai: false },
+      { item: "Blue Shirt", weight: 0.3, ai: false },
+      { item: "Black Shirt", weight: 0.3, ai: false },
+      { item: "Red Shirt", weight: 0.3, ai: false },
+      { item: "Thin Black Hoodie", weight: 1, ai: false },
+      { item: "Thin Jacket", weight: 2.5, ai: false },
+      { item: "Navy Shorts", weight: 0.5, ai: false },
+      { item: "Classic Blue Jeans", weight: 1, ai: false },
+      { item: "Grey Sweatpants", weight: 1, ai: false },
+      { item: "White Sneakers", weight: 0.7, ai: false },
+      { item: "Black Scarf", weight: 0.2, ai: false },
+      { item: "Black Sunglasses", weight: 0.1, ai: false },
+      { item: "Swiss Army Knife Keychain", weight: 0.1, ai: false },
+      { item: "Camera", weight: 1, ai: false },
+      { item: "Camera Batteries", weight: 0.5, ai: false },
+      { item: "Hair Spray (100 ml)", weight: 0.5, ai: false },
+      { item: "Cologne (200 ml)", weight: 1, ai: false },
+      { item: "Toothbrush", weight: 0.1, ai: false },
+      { item: "Toothpaste 150 ml", weight: 0.1, ai: false },
+      { item: "Dental Floss", weight: 0.1, ai: false },
+      { item: "Mouth Wash 250 ml", weight: 0.3, ai: false },
+      { item: "Lightning Cable", weight: 0.1, ai: false },
+      { item: "Power Bank", weight: 0.5, ai: false },
+      { item: "Butcher Knife", weight: 0.6, ai: false },
+      { item: "Hammer", weight: 2, ai: false },
+      { item: "Golf Club", weight: 2, ai: false },
+      { item: "Zippo Lighter", weight: 0.3, ai: false },
+      { item: "Lighter Fluid (100 ml)", weight: 1, ai: false },
+      { item: "Cigarettes", weight: 0.1, ai: false }
     ]
   },
   {
@@ -510,61 +777,42 @@ function App() {
     arriving_airport: "CDG",
     flight_number: "AC777",
     trip_length: 30,
-    checked: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    checked: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32],
     image: '/images/cdg.jpg',
     items: [
-      {
-        item: "Red T-Shirt",
-        ai: true
-      },
-      {
-        item: "Black T-Shirt",
-        ai: false
-      },
-      {
-        item: "Grey T-Shirt",
-        ai: false
-      },
-      {
-        item: "Black Underwear",
-        ai: false
-      },
-      {
-        item: "Blue Underwear",
-        ai: false
-      },
-      {
-        item: "Sunscreen",
-        ai: false
-      },
-      {
-        item: "Toothbrush",
-        ai: false
-      },
-      {
-        item: "Toothpaste 100mL",
-        ai: false
-      },
-      {
-        item: "Winter Jacket",
-        ai: false
-      },
-      {
-        item: "Thin Hoodie",
-        ai: false
-      },
-      {
-        item: "Thick Hoodie",
-        ai: false
-      },
-      {
-        item: "Grey Socks",
-        ai: false
-      },
-      {
-        item: "Black Socks",
-        ai: false
-      },
+      { item: "Blue Underwear", weight: 0.1, ai: false },
+      { item: "Black Underwear", weight: 0.1, ai: false },
+      { item: "Red Underwear", weight: 0.1, ai: false },
+      { item: "Pink Underwear", weight: 0.1, ai: false },
+      { item: "Blue Shirt", weight: 0.3, ai: false },
+      { item: "Black Shirt", weight: 0.3, ai: false },
+      { item: "Red Shirt", weight: 0.3, ai: false },
+      { item: "White Linen Shirt", weight: 0.3, ai: false },
+      { item: "Grey Cotton Shirt", weight: 0.3, ai: false },
+      { item: "Thin Black Hoodie", weight: 1, ai: false },
+      { item: "Thick Black Hoodie", weight: 2, ai: false },
+      { item: "Thick Red Hoodie", weight: 2, ai: false },
+      { item: "Black Sweater", weight: 1, ai: false },
+      { item: "Medium Jacket", weight: 3.5, ai: false },
+      { item: "Thick Black Jacket", weight: 4.5, ai: false },
+      { item: "Black Shorts", weight: 0.5, ai: false },
+      { item: "Green Shorts", weight: 0.5, ai: false },
+      { item: "Classic Blue Jeans", weight: 1, ai: false },
+      { item: "Dark Wash Jeans", weight: 1, ai: false },
+      { item: "Grey Sweatpants", weight: 1, ai: false },
+      { item: "Beige Dress pants", weight: 1.5, ai: false },
+      { item: "White Sneakers", weight: 0.7, ai: false },
+      { item: "Blue Sandals", weight: 0.4, ai: false },
+      { item: "Brown Waterproof Boots", weight: 1.2, ai: false },
+      { item: "Straw Hat", weight: 0.3, ai: false },
+      { item: "Black Sunglasses", weight: 0.1, ai: false },
+      { item: "Black Raincoat", weight: 0.7, ai: false },
+      { item: "Toothbrush", weight: 0.1, ai: false },
+      { item: "Toothpaste 100 ml", weight: 0.1, ai: false },
+      { item: "Dental Floss", weight: 0.1, ai: false },
+      { item: "Mouth Wash 100 ml", weight: 0.1, ai: false },
+      { item: "USB C Charger", weight: 0.1, ai: false },
+      { item: "USB C to Lightning Adaptor", weight: 0.2, ai: false },
     ]
   }])
   const [selectedTrip, setSelectedTrip] = useState(0);
@@ -602,6 +850,7 @@ function App() {
       newChecked.splice(currentIndex, 1);
     }
 
+    console.log(newChecked)
     setChecked(newChecked);
   };
 
@@ -629,11 +878,11 @@ function App() {
               <h3 style={{margin: 20, marginBottom: 2}}>Task 2: Luggage Restrictions</h3>
               <p style={{margin: 20, marginTop: 0}}>In this task you are given a packed suitcase. You need to use the app to identify and remove any items that are restricted from your luggage. You should replace items that can be replaced accordingly.</p>
               <p style={{margin: 20, marginTop: 0, marginBottom: 0}}>Click the button below to initialize the simulator for this task. Note that is will overwrite any inputs you have entered so far. Your trip for this task has already been created for you, navigate to YYZ to JFK on the trips screen.</p>
-              <Button variant="contained" style={{margin: 20}} onClick={() => {setChecked([0, 2, 7, 15, 14, 10])}}>Initialize Task 2</Button>
+              <Button variant="contained" style={{margin: 20}} onClick={() => {setChecked([49, 41, 7, 65, 28, 56, 3, 50, 16, 51, 44, 61, 42, 54, 8, 5, 46, 59, 33, 67, 37, 39, 12, 29, 32, 66, 22, 43, 17, 2, 25])}}>Initialize Task 2</Button>
               <h3 style={{margin: 20}}>Task 3: Overweight</h3>
               <p style={{margin: 20, marginTop: 0}}>In this task you are given a packed suitcase that exceeds the weight limit. Use the app and suitcase to remove/replace items so you satisfy the weight limit and have all the items you need for your trip.</p>
               <p style={{margin: 20, marginTop: 0, marginBottom: 0}}>Click the button below to initialize the simulator for this task. Note that is will overwrite any inputs you have entered so far. Your trip for this task has already been created for you, navigate to YYZ to CDG on the trips screen.</p>
-              <Button variant="contained" style={{margin: 20}} onClick={() => {setChecked([0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12])}}>Initialize Task 3</Button>
+              <Button variant="contained" style={{margin: 20}} onClick={() => {setChecked([49, 41, 7, 53, 65, 28, 56, 45, 30, 3, 9, 57, 20, 26, 18, 15, 10, 51, 62, 44, 21, 61, 24, 52, 48, 54, 64, 67, 11, 39, 19, 23, 63])}}>Initialize Task 3</Button>
             </div>
           </div>
         </Panel>
@@ -642,7 +891,7 @@ function App() {
           <div className="panel">
             <div className="no-bar" style={{background: "white", overflow: "auto", color: "black", width: "100%"}}>
               <h1 style={{margin: 20}}>Your Items</h1>
-              <p style={{margin: 20, textAlign: "left"}}>This is a part of the suitcase simulation. It is meant to represent the physical items you would add to the suitcase. Checking one off represents adding the item to the suitcase. Unchecking an item represents removing it from the suitcase. Note that this intentionally does not alter the checklist of the paired app, but, it will affect the measured weight of the suitcase in the app.</p>
+              <p style={{margin: 20, textAlign: "left"}}>This is a part of the suitcase simulation. It is meant to represent the physical items you would add to the suitcase. Checking one off represents adding the item to the suitcase. Unchecking an item represents removing it from the suitcase. Note that this intentionally does not alter the checklist of the paired app, but, it will affect the measured weight of the suitcase in the app. Additionally, this is intentionally left unorganized to mimic a real scenario.</p>
               <List style={{margin: 20}}>
                 {items.map((item, index) => {
                   const labelId = `checkbox-list-label-${index}`;
