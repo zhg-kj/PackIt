@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-import { Alert, AlertTitle, Button, Card, CardActions, CardContent, CardMedia, Checkbox, Collapse, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, TextField, Typography } from '@mui/material';
+import { Alert, AlertTitle, Button, Card, CardActions, CardContent, CardMedia, Checkbox, Collapse, FormControl, IconButton, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
@@ -9,6 +9,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
+import NotificationAddIcon from '@mui/icons-material/NotificationAdd';
 
 const items = [
   {
@@ -77,19 +78,44 @@ const items = [
   },
 ]
 
-function HomePage({handlePlan, handleExisting} : {handlePlan: any, handleExisting: any}) {
+function HomePage({handlePlan, handleExisting, trip, handleSelectTrip} : {handlePlan: any, handleExisting: any, trip: any, handleSelectTrip: any}) {
   return (
     <>
       <h2 style={{marginBottom: 2}}>Welcome back!</h2>
       <p style={{marginTop: 0}}>Ready to start packing for your next destination?</p>
-      <div className="image-container">
-        <img src="/images/suitcase.png" alt="Suitcase" className="rounded-image"/>
+      <div style={{ marginBottom: 10 }} className="image-container">
+        <img src="/images/travel.jpg" alt="Suitcase" className="rounded-image"/>
       </div>
       <Stack spacing={2} direction="column">
         <Button variant="contained" onClick={handlePlan}>Plan a New Trip</Button>
         <Button variant="text" onClick={handleExisting}>Pack for an Existing Trip</Button>
       </Stack>
-
+      <h3 style={{marginBottom: 2}}>Your next trip is approaching.</h3>
+      <p style={{marginTop: 0}}>Last minute packing? We got you covered. PackIt helps you pack fast and pack smart. Travel with ease knowing that you're 100% prepared.</p>
+      <Card style={{marginBottom: 20}}>
+        <CardMedia
+          sx={{ height: 140 }}
+          image="/images/jfk.jpg"
+          title="green iguana"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {trip.departing_airport + " to " + trip.arriving_airport}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Flight {trip.flight_number}. Gone for {trip.trip_length} days.
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button variant="contained" size="small" onClick={() => {handleSelectTrip(0)}}>Pack</Button>
+          <Button size="small">Edit Trip Details</Button>
+          <Tooltip title="Get a reminder to start packing.">
+            <IconButton>
+              <NotificationAddIcon />
+            </IconButton>
+          </Tooltip>
+        </CardActions>
+      </Card>
       <h3 style={{marginBottom: 2}}>Your suitcase is with you.</h3>
       <p style={{marginTop: 0}}>Last located 1 minute ago.</p>
       <div className="image-container">
@@ -100,15 +126,32 @@ function HomePage({handlePlan, handleExisting} : {handlePlan: any, handleExistin
 }
 
 function TripsPage({trips, handleSelectTrip} : {trips: any, handleSelectTrip: any}) {
+  const [sort, setSort] = useState("")
+
+  const handleChange = (event: any) => {
+    setSort(event.target.value);
+  };
+
   return (
     <>
       <h2>All Your Trips</h2>
+      <FormControl sx={{ marginBottom: 2, minWidth: 120 }}>
+        <InputLabel>Sort By</InputLabel>
+        <Select label="Sort By" value={sort} onChange={handleChange}>
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value="Departure Date">Closest Departure Date First</MenuItem>
+          <MenuItem value="Recently Added">Recently Added</MenuItem>
+          <MenuItem value="Recently Packed">Recently Packed</MenuItem>
+        </Select>
+      </FormControl>
       {trips.map((trip: any, index: any) => {
         return (
           <Card style={{marginBottom: 20}}>
             <CardMedia
               sx={{ height: 140 }}
-              image="/images/jfk.jpg"
+              image={trip.image}
               title="green iguana"
             />
             <CardContent>
@@ -118,17 +161,20 @@ function TripsPage({trips, handleSelectTrip} : {trips: any, handleSelectTrip: an
               <Typography variant="body2" color="text.secondary">
                 Flight {trip.flight_number}. Gone for {trip.trip_length} days.
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                * Edit trip details is unimplemented for this prototype.
-              </Typography>
             </CardContent>
             <CardActions>
               <Button variant="contained" size="small" onClick={() => {handleSelectTrip(index)}}>Pack</Button>
               <Button size="small">Edit Trip Details</Button>
+              <Tooltip title="Get a reminder to start packing.">
+                <IconButton>
+                  <NotificationAddIcon />
+                </IconButton>
+              </Tooltip>
             </CardActions>
           </Card>
         )
       })}
+      <p>* Edit Trip Details and Reminders are unimplemented for this prototype but their functionality is obvious.</p>
     </>
   )
 }
@@ -165,6 +211,7 @@ function CreateTripPage({handleCreate}: {handleCreate: any}) {
       flight_number: flightNumber,
       trip_length: parseInt(tripLength),
       checked: [],
+      image: "/images/cun.jpg",
       items: [
         {
           ai: true,
@@ -354,12 +401,12 @@ function PackPage({weight, trips, selectedTrip, setTrips} : {weight: number, tri
     <>
       <h2 style={{ marginBottom: 2 }}>Your Trip to {trips[selectedTrip].arriving_airport}</h2>
       <h3>Luggage Details</h3>
-      <div> 
+      <div style={{ marginBottom: 10 }}> 
         <div className="image-container">
-          <img src="/images/suitcase.png" alt="Suitcase" className="rounded-image"/>
+          <img src="/images/suitcase.jpg" alt="Suitcase" className="rounded-image"/>
         </div>
       </div>
-      {weight <= 23 ? <Alert severity="success" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight} KG</AlertTitle>You are currently within the weight limit of 5 KG by {5 - weight} KG.</Alert> : <Alert severity="error" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight} KG</AlertTitle>You are currently over the weight limit of 5 KG by {weight - 5} KG.</Alert>}
+      {weight <= 5 ? <Alert severity="success" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight.toFixed(1)} KG</AlertTitle>You are currently within the weight limit of 5 KG by {(5 - parseFloat(weight.toFixed(1))).toFixed(1)} KG.</Alert> : <Alert severity="error" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight.toFixed(1)} KG</AlertTitle>You are currently over the weight limit of 5 KG by {(parseFloat(weight.toFixed(1)) - 5).toFixed(1)} KG. *Example of AI generated suggestion* Based on your packed items you can remove one of your sweaters to meet the weight limit.</Alert>}
       <Alert style={{ marginBottom: 20 }} severity="warning">Note that liquids over 100 mL are not permitted on this flight.</Alert>
       <h3 style={{marginBottom: 2}}>Packing Cheklist</h3>
       <p style={{marginTop: 0}}>Check this list off as you pack! AI suggested items are highlighted in purple.</p>
@@ -411,7 +458,7 @@ function PackPage({weight, trips, selectedTrip, setTrips} : {weight: number, tri
 function AccountPage() {
   return (
     <>
-      Account
+      Account Page. UNECESSARY FOR PROTOTYPE.
     </>
   )
 }
@@ -425,7 +472,8 @@ function App() {
     arriving_airport: "JFK",
     flight_number: "AC666",
     trip_length: 4,
-    checked: [],
+    checked: [0, 1, 2, 3, 4, 5, 6],
+    image: '/images/jfk.jpg',
     items: [
       {
         ai: true,
@@ -433,8 +481,90 @@ function App() {
       },
       {
         ai: false,
-        item: "T-Shirt"
-      }
+        item: "Red T-Shirt"
+      },
+      {
+        ai: false,
+        item: "Grey T-Shirt"
+      },
+      {
+        ai: false,
+        item: "Butcher Knife"
+      },
+      {
+        ai: false,
+        item: "Toothpaste 150mL"
+      },
+      {
+        ai: false,
+        item: "Thin Hoodie"
+      },
+      {
+        ai: false,
+        item: "Cigarretes"
+      },
+    ]
+  },
+  {
+    departing_airport: "YYZ", 
+    arriving_airport: "CDG",
+    flight_number: "AC777",
+    trip_length: 30,
+    checked: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    image: '/images/cdg.jpg',
+    items: [
+      {
+        item: "Red T-Shirt",
+        ai: true
+      },
+      {
+        item: "Black T-Shirt",
+        ai: false
+      },
+      {
+        item: "Grey T-Shirt",
+        ai: false
+      },
+      {
+        item: "Black Underwear",
+        ai: false
+      },
+      {
+        item: "Blue Underwear",
+        ai: false
+      },
+      {
+        item: "Sunscreen",
+        ai: false
+      },
+      {
+        item: "Toothbrush",
+        ai: false
+      },
+      {
+        item: "Toothpaste 100mL",
+        ai: false
+      },
+      {
+        item: "Winter Jacket",
+        ai: false
+      },
+      {
+        item: "Thin Hoodie",
+        ai: false
+      },
+      {
+        item: "Thick Hoodie",
+        ai: false
+      },
+      {
+        item: "Grey Socks",
+        ai: false
+      },
+      {
+        item: "Black Socks",
+        ai: false
+      },
     ]
   }])
   const [selectedTrip, setSelectedTrip] = useState(0);
@@ -498,12 +628,12 @@ function App() {
               <p style={{margin: 20, marginTop: 0}}>Your first task is to pack a trip to Cancun. You are leaving from Toronto YYZ and arriving in Cancun CUN. You will be gone for 4 days and will be on flight AC888. Use the app and suitcase to help you pack for your trip.</p>
               <h3 style={{margin: 20, marginBottom: 2}}>Task 2: Luggage Restrictions</h3>
               <p style={{margin: 20, marginTop: 0}}>In this task you are given a packed suitcase. You need to use the app to identify and remove any items that are restricted from your luggage. You should replace items that can be replaced accordingly.</p>
-              <p style={{margin: 20, marginTop: 0, marginBottom: 0}}>Click the button below to initialize the simulator for this task. Note that is will overwrite any inputs you have entered so far.</p>
-              <Button variant="contained" style={{margin: 20}}>Initialize Task 2</Button>
+              <p style={{margin: 20, marginTop: 0, marginBottom: 0}}>Click the button below to initialize the simulator for this task. Note that is will overwrite any inputs you have entered so far. Your trip for this task has already been created for you, navigate to YYZ to JFK on the trips screen.</p>
+              <Button variant="contained" style={{margin: 20}} onClick={() => {setChecked([0, 2, 7, 15, 14, 10])}}>Initialize Task 2</Button>
               <h3 style={{margin: 20}}>Task 3: Overweight</h3>
               <p style={{margin: 20, marginTop: 0}}>In this task you are given a packed suitcase that exceeds the weight limit. Use the app and suitcase to remove/replace items so you satisfy the weight limit and have all the items you need for your trip.</p>
-              <p style={{margin: 20, marginTop: 0, marginBottom: 0}}>Click the button below to initialize the simulator for this task. Note that is will overwrite any inputs you have entered so far.</p>
-              <Button variant="contained" style={{margin: 20}}>Initialize Task 3</Button>
+              <p style={{margin: 20, marginTop: 0, marginBottom: 0}}>Click the button below to initialize the simulator for this task. Note that is will overwrite any inputs you have entered so far. Your trip for this task has already been created for you, navigate to YYZ to CDG on the trips screen.</p>
+              <Button variant="contained" style={{margin: 20}} onClick={() => {setChecked([0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12])}}>Initialize Task 3</Button>
             </div>
           </div>
         </Panel>
@@ -548,7 +678,7 @@ function App() {
               <div className="phone-content no-bar">
                 {
                   page === 0 ? <TripsPage trips={trips} handleSelectTrip={handleSelectTrip} /> :
-                  page === 1 ? <HomePage handlePlan={handlePlan} handleExisting={handleExisting} /> :
+                  page === 1 ? <HomePage handlePlan={handlePlan} handleExisting={handleExisting} trip={trips[0]} handleSelectTrip={handleSelectTrip} /> :
                   page === 2 ? <AccountPage /> :
                   page === 3 ? <CreateTripPage handleCreate={handleCreate} /> :
                   page === 4 ? <PackPage setTrips={setTrips} weight={calculateWeight()} trips={trips} selectedTrip={selectedTrip} /> :
