@@ -671,7 +671,32 @@ function PackPage({weight, trips, selectedTrip, setTrips} : {weight: number, tri
         </div>
       </div>
       {weight <= 20 ? <Alert severity="success" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight.toFixed(1)} KG</AlertTitle>You are currently within the weight limit of 20 KG by {(20 - parseFloat(weight.toFixed(1))).toFixed(1)} KG.</Alert> : <Alert severity="error" style={{ marginBottom: 10 }}><AlertTitle>Your suitcase weighs {weight.toFixed(1)} KG</AlertTitle>You are currently over the weight limit of 20 KG by {(parseFloat(weight.toFixed(1)) - 20).toFixed(1)} KG. *Example of AI generated suggestion* Based on your packed items you can remove one of your sweaters to meet the weight limit.</Alert>}
-      <Alert style={{ marginBottom: 20 }} severity="warning">Note that liquids over 100 mL are not permitted on this flight.</Alert>
+      <Alert style={{ marginBottom: 20 }} severity="warning">
+        <Typography>
+          The following items are not permitted on your flight:
+        </Typography>
+        <Typography style={{paddingLeft: '20px'}}>
+          - Liquids over 100ml
+        </Typography>
+        <Typography style={{paddingLeft: '20px'}}>
+          - Tools that can be used as weapons (at the discretion of airport security)
+        </Typography>
+        <Typography style={{paddingLeft: '20px'}}>
+          - Batteries
+        </Typography>
+        <Typography style={{paddingLeft: '20px'}}>
+          - Aerosol Cans
+        </Typography>
+        <Typography style={{paddingLeft: '20px'}}>
+          - Sport Equipment
+        </Typography>
+        <Typography style={{paddingLeft: '20px'}}>
+          - Flammable Items
+        </Typography>
+        <Typography style={{paddingLeft: '20px'}}>
+          - Sharp Objects
+        </Typography>
+      </Alert>
       <h3 style={{marginBottom: 2}}>Packing Cheklist</h3>
       <p style={{marginTop: 0}}>Check this list off as you pack! AI suggested items are highlighted in purple.</p>
       <List>
